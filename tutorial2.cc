@@ -14,6 +14,7 @@ int main()
     pythia.readString("SoftQCD:all = on");
     pythia.readString("HardQCD:all = on");
     
+    Pythia8::Hist hpz("Momentum Distribution", 100, -10, 10);
     
     pythia.init();
     
@@ -38,9 +39,18 @@ int main()
             
             double pabs = sqrt(pow(px,2) + pow(py,2) + pow(pz,2));
             
+            hpz.fill(pz);
+            
             std::cout << id << " " << m << " " << pabs << std::endl;
         }
     }
+    
+    std::cout << hpz << std::endl;
+    
+    Pythia8::HistPlot hpl("tutorial2");
+    hpl.frame("output", "Momentum Distribution", "Momentum", "Entries");
+    hpl.add(hpz);
+    hpl.plot();
 
     return 0;
 }
